@@ -25,6 +25,8 @@ function onSubmit(event) {
   event.preventDefault();
   keyInput = inputItem.value;
   galleryItem.innerHTML = '';
+  alertItem.classList.add('hidden');
+
   if (!keyInput.trim()) {
     Notify.info('Oops! Please, enter smth to search.');
     btnMore.classList.add('hidden');
@@ -48,6 +50,7 @@ async function getImg(keyWord) {
         'Sorry, there are no images matching your search query. Please try again.'
       );
       btnMore.classList.add('hidden');
+      alertItem.classList.add('hidden');
       return;
     }
     if (page === 1) {
@@ -65,13 +68,16 @@ async function getImg(keyWord) {
   }
 }
 
-// const { height: cardHeight } = document.querySelector('.gallery');
-// .firstElementChild.getBoundingClientRect();
+if (page > 1) {
+  const { height: cardHeight } = document
+    .querySelector('.gallery')
+    .firstElementChild.getBoundingClientRect();
 
-// window.scrollBy({
-//   top: cardHeight * 2,
-//   behavior: 'smooth',
-// });
+  window.scrollBy({
+    top: cardHeight * 2,
+    behavior: 'smooth',
+  });
+}
 
 function createGallery(images) {
   const markup = images
