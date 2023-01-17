@@ -3,11 +3,11 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #fafafa;
+  background-color: white;
   color: #212121;
   line-height: 1.5;
   text-align: center;
@@ -55,7 +55,7 @@ img {
   text-align: center;
   align-items: center;
   justify-content: center;
-  background-color: tomato;
+  background-color: rgb(119, 242, 216);
   height: 50px;
 }
 
@@ -71,8 +71,8 @@ input {
 }
 
 .load-more {
-  background-color: tomato;
-  color: #fafafa;
+  background-color: rgb(119, 242, 216);
+  color: white;
 }
 
 .hidden {
@@ -80,5 +80,5 @@ input {
 }
 
 .text {
-  color: tomato;
+  color: rgb(119, 242, 216);
 }

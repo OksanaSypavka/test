@@ -5,6 +5,8 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 import './css/styles.css';
 // let gallery = new SimpleLightbox('.gallery a');
 let page = 1;
+let keyInput = '';
+let totalPages = 0;
 
 //https://pixabay.com/api/?key=k&q=${keyWord}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${page}
 const BASE_URL = 'https://pixabay.com/api';
@@ -21,19 +23,38 @@ btnMore.addEventListener('click', onClick);
 
 function onSubmit(event) {
   event.preventDefault();
+  keyInput = inputItem.value;
+  galleryItem.innerHTML = '';
+  if (!keyInput.trim()) {
+    Notify.info('Oops! Please, enter smth to search.');
+    return;
+  }
 }
 function onClick() {}
 
-const { height: cardHeight } = document
-  .querySelector('.gallery')
-  .firstElementChild.getBoundingClientRect();
+async function getImg(keyWord) {
+  try {
+    const response = await axios.get(`${BASE_URL}/?key=${KEY}&q=${keyWord}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${page}`
+    )
+    if (!response.data.hits.length) {
+      Notify.failure("Sorry, there are no images matching your search query. Please try again.");
+      return;
+    }
+    if (page === 1) {
+      Notify.success(`Hooray! We found ${response.data.totalHits} images.`);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-window.scrollBy({
-  top: cardHeight * 2,
-  behavior: 'smooth',
-});
+// const { height: cardHeight } = document.querySelector('.gallery');
+// .firstElementChild.getBoundingClientRect();
 
-inputItem.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
+// window.scrollBy({
+//   top: cardHeight * 2,
+//   behavior: 'smooth',
+// });
 
 function createGallery(images) {
   const markup = images
@@ -61,31 +82,4 @@ const gallery = new SimpleLightbox('.gallery a', {
   scrollZoomFactor: 0,
 });
 
-// function onInput() {
-//   if (!inputItem.value.trim()) {
-//     infoItem.innerHTML = "";
-//     listItem.innerHTML = "";
-//     return;
-//   }
-//   fetchCountries(inputItem.value.trim())
-//     .then((countries) => {
-//       if (countries.length === 1) {
-//         createCountryInfo(countries);
-//         listItem.innerHTML = "";
-//       } else if (countries.length > 10) {
-//         Notify.info(
-//           "Too many matches found. Please enter a more specific name."
-//         );
-//         listItem.innerHTML = "";
-//         infoItem.innerHTML = "";
-//       } else if (countries.length >= 2 && countries.length <= 10) {
-//         createCountryList(countries);
-//         infoItem.innerHTML = "";
-//       }
-//     })
-//     .catch((error) => {
-//       Notify.failure("Oops, there is no country with that name");
-//       infoItem.innerHTML = "";
-//       listItem.innerHTML = "";
-//     });
-// }
+// return new Promise(resolve => setTimeout() => resolve(fruits), 500);
