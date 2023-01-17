@@ -30,7 +30,9 @@ function onSubmit(event) {
     return;
   }
   getImg(keyInput);
+  event.currentTarget.reset();
 }
+
 function onClick() {
   getImg(keyInput);
 }
@@ -44,11 +46,13 @@ async function getImg(keyWord) {
       Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
       );
+      btnMore.classList.add('hidden');
       return;
     }
     if (page === 1) {
       Notify.success(`Hooray! We found ${response.data.totalHits} images.`);
     }
+    btnMore.classList.remove('hidden');
     createGallery(response.data.hits);
     page += 1;
   } catch (error) {
