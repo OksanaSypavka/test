@@ -29,24 +29,32 @@ function onSubmit(event) {
     Notify.info('Oops! Please, enter smth to search.');
     return;
   }
+  getImg(keyInput);
 }
-function onClick() {}
+function onClick() {
+  getImg(keyInput);
+}
 
 async function getImg(keyWord) {
   try {
-    const response = await axios.get(`${BASE_URL}/?key=${KEY}&q=${keyWord}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${page}`
-    )
+    const response = await axios.get(
+      `${BASE_URL}/?key=${KEY}&q=${keyWord}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${page}`
+    );
     if (!response.data.hits.length) {
-      Notify.failure("Sorry, there are no images matching your search query. Please try again.");
+      Notify.failure(
+        'Sorry, there are no images matching your search query. Please try again.'
+      );
       return;
     }
     if (page === 1) {
       Notify.success(`Hooray! We found ${response.data.totalHits} images.`);
     }
+    createGallery(response.data.hits);
+    page += 1;
   } catch (error) {
     console.log(error);
   }
-};
+}
 
 // const { height: cardHeight } = document.querySelector('.gallery');
 // .firstElementChild.getBoundingClientRect();
