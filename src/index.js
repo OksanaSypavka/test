@@ -27,6 +27,7 @@ function onSubmit(event) {
   galleryItem.innerHTML = '';
   if (!keyInput.trim()) {
     Notify.info('Oops! Please, enter smth to search.');
+    btnMore.classList.add('hidden');
     return;
   }
   getImg(keyInput);
@@ -53,8 +54,12 @@ async function getImg(keyWord) {
       Notify.success(`Hooray! We found ${response.data.totalHits} images.`);
     }
     btnMore.classList.remove('hidden');
+    totalPages = Math.ceil(response.data.totalHits / 40);
     createGallery(response.data.hits);
     page += 1;
+    if (page > totalPages) {
+      return toogleAlertMarkup();
+    }
   } catch (error) {
     console.log(error);
   }
@@ -86,7 +91,10 @@ function createGallery(images) {
     .join('');
   galleryItem.insertAdjacentHTML('beforeend', markup);
 }
-
+function toogleAlertMarkup() {
+  alertItem.classList.remove('hidden');
+  btnMore.classList.add('hidden');
+}
 const gallery = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
   captionsDelay: 250,
