@@ -27,6 +27,8 @@ function onSubmit(event) {
   galleryItem.innerHTML = '';
   alertItem.classList.add('hidden');
 
+  page = 1;
+
   if (!keyInput.trim()) {
     Notify.info('Oops! Please, enter smth to search.');
     btnMore.classList.add('hidden');
